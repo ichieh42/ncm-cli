@@ -117,6 +117,7 @@ func newVersionCmd() *cobra.Command {
 
 func newLoginCmd(opts *rootOptions) *cobra.Command {
 	var headless bool
+	var tracePath string
 	cmd := &cobra.Command{
 		Use:   "login",
 		Short: "打开浏览器登录网易云音乐",
@@ -127,6 +128,7 @@ func newLoginCmd(opts *rootOptions) *cobra.Command {
 				ConfigDir: opts.configDir,
 				Headless:  headless,
 				Timeout:   10 * time.Minute,
+				TracePath: tracePath,
 				Stdout:    cmd.OutOrStdout(),
 			})
 			if err != nil {
@@ -136,6 +138,7 @@ func newLoginCmd(opts *rootOptions) *cobra.Command {
 		},
 	}
 	cmd.Flags().BoolVar(&headless, "headless", false, "使用无头浏览器登录")
+	cmd.Flags().StringVar(&tracePath, "trace", "", "将 Playwright trace（zip）保存到该路径，用于分析页面加载时间线")
 	return cmd
 }
 
